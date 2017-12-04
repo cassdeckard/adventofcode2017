@@ -20,3 +20,23 @@ let matrix = [
     [149,     4140,    112,     3748,    148,     815,     4261,    138,     1422,    2670,    32,      334,     2029,    4750,    4472,    2010],
     [114,     605,     94,      136,     96,      167,     553,     395,     164,     159,     284,     104,     530,     551,     544,     18]
 ]
+
+let part1 = matrix.map {
+    (row : [Int]) -> Int in
+    let max = row.max()!
+    let min = row.min()!
+    
+    return max - min
+}
+
+print(part1.reduce(0, +))
+
+let maxDivisors = matrix.map {
+    (row : [Int]) -> Int in
+    let max = row.max()!
+    let min = row.min()!
+    
+    return max / min
+}
+
+print(maxDivisors)
