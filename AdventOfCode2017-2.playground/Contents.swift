@@ -31,12 +31,21 @@ let part1 = matrix.map {
 
 print(part1.reduce(0, +))
 
-let maxDivisors = matrix.map {
+
+let part2 = matrix.map {
     (row : [Int]) -> Int in
-    let max = row.max()!
-    let min = row.min()!
     
-    return max / min
+    var candidate: Int?
+    var result: Int?
+    var sortedRow = row.sorted()
+    
+    while result == nil && sortedRow.count > 0 {
+        candidate = sortedRow.popLast()
+        result = sortedRow.first { candidate! % $0 == 0 }
+    }
+    
+    return candidate! / result!
 }
 
-print(maxDivisors)
+print(part2)
+print(part2.reduce(0, +))
