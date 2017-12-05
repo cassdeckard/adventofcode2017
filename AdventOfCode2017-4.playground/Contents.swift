@@ -518,7 +518,7 @@ let passphrases = [
 ]
 
 extension String {
-    var isValidPassphrase : Bool {
+    var hasNoDuplicates : Bool {
         let words = self.split(separator: " ")
         return words.reduce([Substring:Int]()) {
             (acc, next) in
@@ -528,15 +528,31 @@ extension String {
         }.filter { (k, v) in v > 1 }
         .count == 0
     }
+    
+    var hasAnagram : Bool {
+        let words = self.split(separator: " ")
+        let map = words.reduce([String:Int]()) {
+            (acc, next) in
+            var result = acc
+            let key = String(next.sorted())
+            result[key] = (acc[key] ?? 0) + 1
+            return result
+        }.filter { (k, v) in v > 1 }
+        return map.count > 0
+    }
 }
 
-"a a".isValidPassphrase
-"a b".isValidPassphrase
-"mister fish is cool".isValidPassphrase
-"aa a".isValidPassphrase
-"mister fish is fish".isValidPassphrase
+"a a".hasAnagram
+"ab ba".hasAnagram
+"mister fish is cool".hasAnagram
+"aa a".hasAnagram
+"mister fish is shif".hasAnagram
 
-let validPassphrases = passphrases.filter { $0.isValidPassphrase }
+// part1
+//let validPassphrases = passphrases.filter { $0.hasNoDuplicates }
+
+// part2
+let validPassphrases = passphrases.filter { !$0.hasAnagram }
 
 print(validPassphrases.count)
 
