@@ -519,9 +519,22 @@ let passphrases = [
 
 extension String {
     var isValidPassphrase : Bool {
-        return false
+        let words = self.split(separator: " ")
+        return words.reduce([Substring:Int]()) {
+            (acc, next) in
+            var result = acc
+            result[next] = (acc[next] ?? 0) + 1
+            return result
+        }.filter { (k, v) in v > 1 }
+        .count == 0
     }
 }
+
+"a a".isValidPassphrase
+"a b".isValidPassphrase
+"mister fish is cool".isValidPassphrase
+"aa a".isValidPassphrase
+"mister fish is fish".isValidPassphrase
 
 let validPassphrases = passphrases.filter { $0.isValidPassphrase }
 
