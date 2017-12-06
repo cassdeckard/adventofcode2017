@@ -1,3 +1,5 @@
+#!/usr/bin/swift
+
 import Foundation
 
 let example = [0, 2, 7, 0]
