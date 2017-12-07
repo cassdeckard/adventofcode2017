@@ -1520,14 +1520,20 @@ struct Program {
     let name: String
     let size: UInt
     let children: [Program]
+    let trueSize: UInt
+    let valid: Bool
 
-    var trueSize: UInt {
-        return size + children.reduce(0) { acc, next in acc + next.trueSize }
+    init(name: String, size: UInt, children: [Program]) {
+        self.name = name
+        self.size = size
+        self.children = children
+        self.trueSize = size + children.reduce(0) { acc, next in acc + next.trueSize }
+        guard let firstChildSize = children.first?.trueSize else {
+            self.valid = true
+            return
+        }
+        self.valid = children.filter { $0.trueSize != firstChildSize }.count == 0
     }
-
-    var valid: Bool {
-        guard let firstChildSize = children.first?.trueSize else { return true }
-        return children.filter { $0.trueSize != firstChildSize }.count == 0 }
 }
 
 func findRootWord(_ input: String) -> String {
