@@ -1,4 +1,4 @@
-//: Playground - noun: a place where people can play
+#!/usr/bin/swift
 
 import Foundation
 
@@ -1520,11 +1520,11 @@ struct Program {
     let name: String
     let size: UInt
     let children: [Program]
-    
+
     var trueSize: UInt {
         return size + children.reduce(0) { acc, next in acc + next.trueSize }
     }
-    
+
     var valid: Bool {
         guard let firstChildSize = children.first?.trueSize else { return true }
         return children.filter { $0.trueSize != firstChildSize }.count == 0 }
@@ -1541,10 +1541,11 @@ func findRootWord(_ input: String) -> String {
     let wordList = input
         .replacingOccurrences(of: " ->", with: "")
         .replacingOccurrences(of: " (", with: "")
-        .filter { ![")", "1", "2", "3", "4", "5", "6", "7", "8", "9", ","].contains($0) }
+        .filter { ![")", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ","].contains($0) }
         .replacingOccurrences(of: "\n", with: " ")
         .split(separator: " ")
         .sorted()
+//    print(wordList)
     for i in stride(from: 0, to: wordList.count, by: 2) {
         if wordList[i] != wordList[i + 1] {
             rootWord = String(wordList[i])
@@ -1559,7 +1560,7 @@ func buildTree(_ programMap: [String : ProgramDescription], rootWord: String) ->
     let children = root.children.map {
         buildTree(programMap, rootWord: $0)
     }
-    
+
     return Program(name: root.name, size: root.size, children: children)
 }
 
@@ -1585,15 +1586,15 @@ func process(_ input: String) -> Program {
             let name = String(nameSize.removeFirst())
             let size = UInt(nameSize.removeFirst())!
             let children = programDescription.first?.split(separator: ",").map(String.init)
-            
+
             result[name] = ProgramDescription(name: name, size: size, children: children ?? [])
             return result
     }
 //    print(programMap.description.replacingOccurrences(of: "), ", with: ")\n"))
 //    print("###")
-    
+
     return buildTree(programMap, rootWord: findRootWord(input))
 }
 
-let tree = process(example)
+let tree = process(input)
 printTree(tree)
