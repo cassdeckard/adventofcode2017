@@ -1530,12 +1530,6 @@ struct Program {
         return children.filter { $0.trueSize != firstChildSize }.count == 0 }
 }
 
-//extension ProgramDescription : CustomStringConvertible {
-//    var description: String {
-//        return "\(name) (\(size)) with \(children?.count ?? -1) children"
-//    }
-//}
-
 func findRootWord(_ input: String) -> String {
     var rootWord: String?
     let wordList = input
@@ -1545,7 +1539,6 @@ func findRootWord(_ input: String) -> String {
         .replacingOccurrences(of: "\n", with: " ")
         .split(separator: " ")
         .sorted()
-//    print(wordList)
     for i in stride(from: 0, to: wordList.count, by: 2) {
         if wordList[i] != wordList[i + 1] {
             rootWord = String(wordList[i])
@@ -1590,8 +1583,6 @@ func process(_ input: String) -> Program {
             result[name] = ProgramDescription(name: name, size: size, children: children ?? [])
             return result
     }
-//    print(programMap.description.replacingOccurrences(of: "), ", with: ")\n"))
-//    print("###")
 
     return buildTree(programMap, rootWord: findRootWord(input))
 }
