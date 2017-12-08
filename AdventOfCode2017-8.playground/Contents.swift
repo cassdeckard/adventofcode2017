@@ -1121,13 +1121,15 @@ func compile(instructions: String) -> [Instruction] {
 
 func process(input: String) {
     var registers = Registers()
+    var maxSeen = 0
     compile(instructions: input).forEach {
-        print($0)
         $0.execute(onRegisters: &registers)
+        maxSeen = max(maxSeen, registers[$0.register] ?? 0)
     }
     
     print(registers)
     print(registers.max { a, b in a.value < b.value }?.value ?? 0)
+    print(maxSeen)
 }
 
 compile(instruction: "b dec -5 if a <= -1")
