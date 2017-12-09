@@ -7,5 +7,9 @@ do
     | sed -e 's/{,\+/{/g'\
     | sed -e 's/,\+}/}/g'\
     | tr '{}' '[]'\
-    | python -mjson.tool
+    | python -mjson.tool\
+    | sed -e 's/ \+\]//g'\
+    | sed -e 's/    \|\[/./g'\
+    | tr -cd '.'\
+    | wc -c
 done
