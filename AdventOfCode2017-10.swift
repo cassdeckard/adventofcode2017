@@ -34,6 +34,13 @@ for i in stride(from: 0, to: 256, by: 16) {
 	dense.append(sparse[i..<i+16].reduce(0, ^))
 }
 print(dense)
-//print(dense.map { String.init(format: "%02x", $0) })
 
-// print(String(format: "%02x", 15))
+func toHex(_ int: Int) -> String {
+	let key = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"]
+	return key[(int / 16)] + key[(int % 16)]
+}
+
+let denseStr = dense.reduce("") {
+	acc, next in acc + toHex(next)
+}
+print(denseStr)
