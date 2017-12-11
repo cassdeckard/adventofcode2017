@@ -42,6 +42,12 @@ extension HexPosition : CustomDebugStringConvertible {
     }
 }
 
+extension HexPosition : Equatable {
+    static func ==(lhs: HexPosition, rhs: HexPosition) -> Bool {
+        return lhs.x == rhs.x && lhs.y == rhs.y
+    }
+}
+
 func process(_ input: String) -> HexPosition {
     return input
         .split(separator: ",")
@@ -49,19 +55,13 @@ func process(_ input: String) -> HexPosition {
         .reduce(HexPosition.origin) { $0.moved($1) }
 }
 
-HexPosition.origin
-    .moved(.ne)
-    .moved(.sw)
 
-
-HexPosition.origin
-    .moved(.n)
-    .moved(.s)
-
-
-HexPosition.origin
-    .moved(.nw)
-    .moved(.se)
+assert(HexPosition.origin.moved(.ne).moved(.sw) == HexPosition.origin)
+assert(HexPosition.origin.moved(.n).moved(.s) == HexPosition.origin)
+assert(HexPosition.origin.moved(.nw).moved(.se) == HexPosition.origin)
+assert(HexPosition.origin.moved(.se).moved(.nw) == HexPosition.origin)
+assert(HexPosition.origin.moved(.s).moved(.n) == HexPosition.origin)
+assert(HexPosition.origin.moved(.sw).moved(.ne) == HexPosition.origin)
 
 let examples = [
     "ne,ne,ne",
