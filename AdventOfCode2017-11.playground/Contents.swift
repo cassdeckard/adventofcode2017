@@ -6,52 +6,47 @@ struct HexPosition {
     enum Direction : String {
         case n, ne, se, s, sw, nw
         
-        var offsets : (Int, Int, Int) {
+        var offsets : (Int, Int) {
             switch self {
             case .n:
-                return (0, 1, -1)
+                return (0, 1)
             case .ne:
-                return (1, 0, -1)
+                return (1, 0)
             case .se:
-                return (1, -1, 0)
+                return (1, -1)
             case .s:
-                return (0, -1, 1)
+                return (0, -1)
             case .sw:
-                return (-1, 0, 1)
+                return (-1, 0)
             case .nw:
-                return (-1, 1, 0)
+                return (-1, 1)
             }
         }
     }
     
-    let x, y, z: Int
+    let x, y: Int
     
     static var origin : HexPosition {
-        return HexPosition(x: 0, y: 0, z: 0)
+        return HexPosition(x: 0, y: 0)
     }
     
     func moved(_ direction: Direction) -> HexPosition {
         return HexPosition(x: x + direction.offsets.0,
-                           y: y + direction.offsets.1,
-                           z: z + direction.offsets.2)
+                           y: y + direction.offsets.1)
     }
 }
 
 extension HexPosition : CustomDebugStringConvertible {
     var debugDescription : String {
-        return "(\(x), \(y), \(z))"
+        return "(\(x), \(y))"
     }
 }
 
 func process(_ input: String) -> HexPosition {
-    var result = HexPosition.origin
-    
-    input
+    return input
         .split(separator: ",")
         .flatMap { HexPosition.Direction(rawValue: String($0)) }
-        .forEach { result = result.moved($0) }
-    
-    return result
+        .reduce(HexPosition.origin) { $0.moved($1) }
 }
 
 HexPosition.origin
