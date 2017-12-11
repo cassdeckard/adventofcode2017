@@ -37,11 +37,15 @@ class HexPosition {
         return "(\(x), \(y))"
     }
     
+    static var furthestPoint = 0
+    
     static func make(_ x: Int, _ y: Int) -> HexPosition {
         let key = HexPosition.stringify(x, y)
         guard let memoizedValue = memo[key] else {
-            memo[key] = HexPosition(x: x, y: y)
-            return memo[key]!
+            let newValue = HexPosition(x: x, y: y)
+            memo[key] = newValue
+            furthestPoint = max(furthestPoint, newValue.walkBack)
+            return newValue
         }
         return memoizedValue
     }
@@ -78,8 +82,6 @@ class HexPosition {
         guard let next = self.movedTowardOrigin()?.walkBack else {
             return 0
         }
-        print(".", terminator:"")
-        if (next + 1) % 100 == 0 { print("#") }
         return next + 1
     }()
 }
@@ -137,4 +139,4 @@ se,se,se,se,s,s,nw,s,sw,se,se,sw,sw,sw,se,nw,sw,nw,se,nw,nw,s,nw,nw,n,ne,n,n,sw,
 """
 
 print(process(input).walkBack)
-
+print(HexPosition.furthestPoint)
