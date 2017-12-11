@@ -97,4 +97,17 @@ let examples = [
     "se,sw,se,sw,sw"
 ]
 
-examples.map(process)
+examples
+    .map(process)
+    .map {
+        (start: HexPosition) -> Int in
+        var current = start
+        var count = 0
+        while current != HexPosition.origin {
+            guard let next = current.movedTowardOrigin() else { break }
+            current = next
+            count += 1
+        }
+        return count
+    }
+    .forEach { print($0) }
