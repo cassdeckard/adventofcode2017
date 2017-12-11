@@ -34,6 +34,24 @@ struct HexPosition {
         return HexPosition(x: x + direction.offsets.0,
                            y: y + direction.offsets.1)
     }
+    
+    func movedTowardOrigin() -> HexPosition? {
+        if self == HexPosition.origin { return nil }
+        
+        var direction : Direction?
+        if x + y == 0 {
+            // move along se-nw axis
+            direction = x > 0 ? .nw : .se
+        }
+        else if abs(x) > abs(y) {
+            // move along ne-sw axis
+            direction = x > 0 ? .sw : .ne
+        } else {
+            // move along n-s axis
+            direction = y > 0 ? .s : .n
+        }
+        return self.moved(direction ?? .n)
+    }
 }
 
 extension HexPosition : CustomDebugStringConvertible {
@@ -62,6 +80,15 @@ assert(HexPosition.origin.moved(.nw).moved(.se) == HexPosition.origin)
 assert(HexPosition.origin.moved(.se).moved(.nw) == HexPosition.origin)
 assert(HexPosition.origin.moved(.s).moved(.n) == HexPosition.origin)
 assert(HexPosition.origin.moved(.sw).moved(.ne) == HexPosition.origin)
+
+assert(HexPosition.origin.moved(.n).movedTowardOrigin()! == HexPosition.origin)
+assert(HexPosition.origin.moved(.ne).movedTowardOrigin()! == HexPosition.origin)
+assert(HexPosition.origin.moved(.se).movedTowardOrigin()! == HexPosition.origin)
+assert(HexPosition.origin.moved(.s).movedTowardOrigin()! == HexPosition.origin)
+assert(HexPosition.origin.moved(.sw).movedTowardOrigin()! == HexPosition.origin)
+assert(HexPosition.origin.moved(.nw).movedTowardOrigin()! == HexPosition.origin)
+
+assert(HexPosition.origin.movedTowardOrigin() == nil)
 
 let examples = [
     "ne,ne,ne",
