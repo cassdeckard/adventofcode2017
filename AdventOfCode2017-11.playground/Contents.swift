@@ -52,6 +52,14 @@ struct HexPosition {
         }
         return self.moved(direction ?? .n)
     }
+    
+    private func _walkBack(count: Int) -> Int {
+        return self.movedTowardOrigin()?._walkBack(count: count + 1) ?? count
+    }
+    
+    func walkBack() -> Int {
+        return _walkBack(count: 0)
+    }
 }
 
 extension HexPosition : CustomDebugStringConvertible {
@@ -99,15 +107,6 @@ let examples = [
 
 examples
     .map(process)
-    .map {
-        (start: HexPosition) -> Int in
-        var current = start
-        var count = 0
-        while current != HexPosition.origin {
-            guard let next = current.movedTowardOrigin() else { break }
-            current = next
-            count += 1
-        }
-        return count
-    }
+    .map { $0.walkBack() }
     .forEach { print($0) }
+
