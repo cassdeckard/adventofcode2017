@@ -2045,18 +2045,20 @@ func process(_ input: String) -> [Int : Node] {
     }
 }
 
-func clique(for nodeId: Int, in nodeMap: [Int : Node]) -> Set<Int> {
-    var remainingNodes = nodeMap
-    guard let node = remainingNodes.removeValue(forKey: nodeId) else { return Set<Int>() }
+func group(for nodeId: Int, in nodeMap: inout [Int : Node]) -> Set<Int> {
+    guard let node = nodeMap.removeValue(forKey: nodeId) else { return Set<Int>() }
     let neighbors = Set(node.neighbors)
     return neighbors.union(neighbors.flatMap {
-        clique(for: $0, in: remainingNodes)
+        group(for: $0, in: &nodeMap)
     })
 }
 
-print(clique(for: 0, in: process(example)))
+var nodeMap = process(input)
 
-let part1 = clique(for: 0, in: process(input))
-print(part1)
-print(part1.count)
+var groupCount = 0
+while nodeMap.count > 0 {
+    let nextId = nodeMap.first!.key
+    let nextGroup = group(for: nextId, in: &nodeMap)
+    print(nextGroup)
+}
 
