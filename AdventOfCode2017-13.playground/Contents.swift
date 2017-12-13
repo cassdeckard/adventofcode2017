@@ -55,23 +55,35 @@ let input = """
 96: 18
 """
 
-func didHit(layer: Int, range: Int) -> Bool {
-    return layer % ((range - 1) * 2) == 0
+func didHit(layer: Int, range: Int, offset: Int = 0) -> Bool {
+    return (layer + offset) % ((range - 1) * 2) == 0
 }
 
 func severity(layer: Int, range: Int) -> Int {
     return didHit(layer: layer, range: range) ? layer * range : 0
 }
 
-let part1 = input
+let initialScanners = input
     .replacingOccurrences(of: " ", with: "")
     .split(separator: "\n")
     .map {
         $0.split(separator: ":").map { Int($0)! }
     }
+
+let part1 = initialScanners
     .map {
         severity(layer: $0[0], range: $0[1])
     }
     .reduce(0, +)
 
 print(part1)
+
+var offset = 1
+while true {
+    let hit = initialScanners
+        .map { didHit(layer: $0[0], range: $0[1], offset: offset) }
+        .contains(true)
+    if !hit { break }
+    offset += 1
+}
+print(offset)
