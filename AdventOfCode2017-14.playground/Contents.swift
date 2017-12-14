@@ -18,3 +18,9 @@ print(KnotHash("flqrgnkx-4").dense.squares.prefix(8))
 print(KnotHash("flqrgnkx-5").dense.squares.prefix(8))
 print(KnotHash("flqrgnkx-6").dense.squares.prefix(8))
 print(KnotHash("flqrgnkx-7").dense.squares.prefix(8))
+
+let squares = (0..<128).flatMap {
+    KnotHash("ljoxqyyw-\($0)").dense.bin.map{ $0 }
+}
+
+print(squares.filter { $0 == "1" }.count)
