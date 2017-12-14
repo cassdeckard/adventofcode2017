@@ -10,11 +10,11 @@ KnotHash("1,2,4").dense.hex == "63960835bcdc130f0b66d7ff4f6a5a8e"
 KnotHash("230,1,2,221,97,252,168,169,57,99,0,254,181,255,235,167").dense.hex == "0c2f794b2eb555f7830766bf8fb65a16"
 
 
-KnotHash("flqrgnkx-0").dense.bin
-KnotHash("flqrgnkx-1").dense.bin
-KnotHash("flqrgnkx-2").dense.bin
-KnotHash("flqrgnkx-3").dense.bin
-KnotHash("flqrgnkx-4").dense.bin
-KnotHash("flqrgnkx-5").dense.bin
-KnotHash("flqrgnkx-6").dense.bin
-KnotHash("flqrgnkx-7").dense.bin
+print(KnotHash("flqrgnkx-0").dense.squares.prefix(8))
+print(KnotHash("flqrgnkx-1").dense.squares.prefix(8))
+print(KnotHash("flqrgnkx-2").dense.squares.prefix(8))
+print(KnotHash("flqrgnkx-3").dense.squares.prefix(8))
+print(KnotHash("flqrgnkx-4").dense.squares.prefix(8))
+print(KnotHash("flqrgnkx-5").dense.squares.prefix(8))
+print(KnotHash("flqrgnkx-6").dense.squares.prefix(8))
+print(KnotHash("flqrgnkx-7").dense.squares.prefix(8))

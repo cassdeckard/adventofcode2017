@@ -56,6 +56,10 @@ extension Data {
             return $0 + padding + binDigits
         }
     }
+    
+    public var squares : String {
+        return String(self.bin.map { $0 == "0" ? "." : "#" })
+    }
 }
 
 extension KnotHash : CustomStringConvertible {
