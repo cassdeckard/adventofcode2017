@@ -2,7 +2,6 @@
 
 import Foundation
 
-
 KnotHash("").dense.hex == "a2582a3a0e66e6e86e3812dcb672a272"
 KnotHash("AoC 2017").dense.hex == "33efeb34ea91902bb2f59c9920caa6cd"
 KnotHash("1,2,3").dense.hex == "3efbe78a8d82f29979031a4aa0b16a9d"
@@ -19,8 +18,6 @@ print(KnotHash("flqrgnkx-5").dense.squares.prefix(8))
 print(KnotHash("flqrgnkx-6").dense.squares.prefix(8))
 print(KnotHash("flqrgnkx-7").dense.squares.prefix(8))
 
-let squares = (0..<128).flatMap {
-    KnotHash("ljoxqyyw-\($0)").dense.bin.map{ $0 }
-}
+let squares = (0..<128).flatMap { KnotHash("ljoxqyyw-\($0)").dense.bin.map{ PixelData(UInt8(String($0))!) } }
 
-print(squares.filter { $0 == "1" }.count)
+let image = squares.asARGB32Bitmap(width: 128, height: 128)
