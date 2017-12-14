@@ -1,7 +1,7 @@
 import Foundation
 
 public class KnotHash {
-    private let dense: [Int]
+    public let dense: Data
     
     private static func process(_ input: [Int], listLength: Int = 256) -> [Int] {
         var list = (0..<listLength).map{ $0 }
@@ -29,12 +29,12 @@ public class KnotHash {
     public init(_ input: String) {
         let inputList = input.unicodeScalars.map { Int(UInt8(ascii: $0)) } + [17, 31, 73, 47, 23]
         
-        let sparse = KnotHash.process(inputList)
-        var dense = [Int]()
+        let sparseInts = KnotHash.process(inputList)
+        var denseInts = [Int]()
         for i in stride(from: 0, to: 256, by: 16) {
-            dense.append(sparse[i..<i+16].reduce(0, ^))
+            denseInts.append(sparseInts[i..<i+16].reduce(0, ^))
         }
-        self.dense = dense
+        self.dense = Data(bytes: denseInts.map { UInt8($0) } )
     }
     
     public var toHex : String {
@@ -44,8 +44,22 @@ public class KnotHash {
     }
 }
 
+extension Data {
+    public var hex : String {
+        return self.reduce("") { $0 + String(format: "%02hhx", $1) }
+    }
+    
+    public var bin : String {
+        return self.reduce("") {
+            let binDigits = String($1, radix: 2)
+            let padding = String(repeating: "0", count: 8 - binDigits.count)
+            return $0 + padding + binDigits
+        }
+    }
+}
+
 extension KnotHash : CustomStringConvertible {
     public var description : String {
-        return self.toHex
+        return self.dense.hex
     }
 }
