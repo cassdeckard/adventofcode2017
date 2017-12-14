@@ -42,3 +42,13 @@ extension Array where Element == PixelData {
         return UIImage(cgImage: cgim)
     }
 }
+
+extension UIImage {
+    public func scaled(toSize size: CGSize) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+        self.draw(in: CGRect(origin: CGPoint.zero, size: CGSize(width: size.width, height: size.height)))
+        let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+}
