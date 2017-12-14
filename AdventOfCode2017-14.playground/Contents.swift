@@ -33,8 +33,9 @@ var realSquares = getSquares("ljoxqyyw")
 //floodFill(&exampleSquares, target: (x: 7, y: 1))
 //floodFill(&exampleSquares, target: (x: 7, y: 3))
 
-let groupCounts = fillAll(&exampleSquares)
+let groupCounts = fillAll(&realSquares)
 groupCounts.count
 groupCounts.reduce(0, +)
 
-squaresAsImage(exampleSquares)
+//squaresAsImage(exampleSquares)
+

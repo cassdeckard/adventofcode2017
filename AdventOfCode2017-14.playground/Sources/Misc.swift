@@ -7,7 +7,7 @@ public func getSquares(_ input: String) -> [UInt8] {
 public func floodFill(_ input: inout [UInt8], target: (x: Int, y: Int) = (x: 0, y: 0)) -> Int {
     let (x, y) = target
     let index = y * 128 + x
-    guard input.indices.contains(index), input[index] == 1 else { return 0 }
+    guard x >= 0, x < 128, y >= 0, y < 128, input[index] == 1 else { return 0 }
     
     var numChanged = 1
     input[index] = 0
