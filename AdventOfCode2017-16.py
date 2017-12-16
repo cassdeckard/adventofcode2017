@@ -1,4 +1,4 @@
-programs = [chr(i) for i in range(ord('a'), ord('f'))]
+programs = [chr(i) for i in range(ord('a'), ord('q'))]
 
 def spin(programs, idx):
   print(idx)
@@ -22,11 +22,11 @@ def partner(programs,a,b):
 
 move_map = { 's' : spin, 'x' : exchange, 'p' : partner }
 
-moves = "s1,x3/4,pe/b"
+move_file = open('input-16.txt', 'r')
+moves = move_file.read()
 moves = moves.split(',')
 moves = [(m[0], m[1:]) for m in moves]
 moves = [(m[0], m[1].split('/')) for m in moves]
-
 
 for move in moves:
   print programs
