@@ -1,7 +1,6 @@
-programs = [chr(i) for i in range(ord('a'), ord('q'))]
+programs = list('abcdefghijklmnop')
 
 def spin(programs, idx):
-  print(idx)
   idx = int(idx)
   slice_idx = len(programs) - idx
   return programs[slice_idx:] + programs [:slice_idx]
@@ -26,10 +25,22 @@ move_file = open('input-16.txt', 'r')
 moves = move_file.read()
 moves = moves.split(',')
 moves = [(m[0], m[1:]) for m in moves]
-moves = [(m[0], m[1].split('/')) for m in moves]
+moves = [(move_map[m[0]], m[1].split('/')) for m in moves]
 
-for move in moves:
-  print programs
-  programs = move_map[move[0]](programs, *move[1])
+#initial_states = { ''.join(programs) : 0 }
 
-print programs
+get_ready = False
+# after 44 iterations of the full list of dance moves, the program state is the
+# same as it would be after 1
+for i in range(1000000000 % 44):
+  print '. ',
+  for move in moves:
+    (f, args) = move
+    programs = f(programs, *args)
+  #programs_string = ''.join(programs)
+  #if programs_string in initial_states :
+  #  pass
+  #else :
+  #  initial_states[''.join(programs)] = i
+
+print ''.join(programs)
