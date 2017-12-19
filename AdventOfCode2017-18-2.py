@@ -2,6 +2,8 @@ registers = [
         dict([r, 0] for r in list('abcdefghijklmnop')),
         dict([r, 0] for r in list('abcdefghijklmnop'))
         ]
+registers[0]['p'] = 0
+registers[1]['p'] = 1
 registers[0]['ptr'] = 0
 registers[1]['ptr'] = 0
 sent = [[],[]]
