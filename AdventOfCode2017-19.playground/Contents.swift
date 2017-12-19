@@ -252,7 +252,7 @@ var direction = Direction.down
 var debug = false
 var debug2 = false
 
-for _ in 0...100000 {
+for i in 0...100000 {
     let (x, y) = position
 //    if x == 55 && y == 55 { debug2 = true }
     let symbol = maze[x][y]
@@ -260,7 +260,7 @@ for _ in 0...100000 {
     if debug { print("\(position) : \(symbol) : \(direction)") }
     switch symbol {
     case " ":
-        fatalError("fell off the maze at \(position)")
+        fatalError("fell off the maze at \(position) step \(i)")
     case "+":
         for d in [Direction.up, Direction.right, Direction.down, Direction.left, nil] {
             guard let nextDirection = d else { fatalError("failed to find valid nextDirection") }
