@@ -24,6 +24,10 @@ struct Point {
         let p = position + v
         return Point(position: p, velocity: v, acceleration: acceleration)
     }
+    
+    var distance: Int {
+        return abs(position.x + position.y + position.z)
+    }
 }
 
 func +(lhs: Vector, rhs: Vector) -> Vector {
@@ -32,7 +36,7 @@ func +(lhs: Vector, rhs: Vector) -> Vector {
 
 extension Point : CustomStringConvertible {
     var description: String {
-        return "<p=\(position) v=\(velocity) a=\(acceleration)>"
+        return "<p=\(position) v=\(velocity) a=\(acceleration) d=\(distance)>"
     }
 }
 
