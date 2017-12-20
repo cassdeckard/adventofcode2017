@@ -18,6 +18,16 @@ struct Point {
     let position: Vector
     let velocity: Vector
     let acceleration: Vector
+    
+    func step() -> Point {
+        let v = velocity + acceleration
+        let p = position + v
+        return Point(position: p, velocity: v, acceleration: acceleration)
+    }
+}
+
+func +(lhs: Vector, rhs: Vector) -> Vector {
+    return (x: lhs.x + rhs.x, y: lhs.y + rhs.y, z: lhs.z + rhs.z)
 }
 
 extension Point : CustomStringConvertible {
@@ -27,14 +37,18 @@ extension Point : CustomStringConvertible {
 }
 
 extension Array where Element == Point {
-    var numberLine : String {
+    var description : String {
         return self.reduce("[\n") { $0 + "    \($1)\n" } + "]"
+    }
+    
+    func step() -> [Element] {
+        return self.map { $0.step() }
     }
 }
 
 example = String(example.filter { Array("0123456789-,\n").contains($0) })
 
-let points = example
+var points = example
     .split(separator: "\n")
     .map {
         $0.split(separator: ",").map { Int($0)! }
@@ -46,4 +60,9 @@ let points = example
               acceleration: (x: a[6], y: a[7], z: a[8]))
 }
 
-print(points.numberLine)
+print(points.description)
+for i in 0...2 {
+    print(" > STEP \(i)")
+    points = points.step()
+    print(points.description)
+}
