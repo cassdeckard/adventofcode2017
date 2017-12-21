@@ -1,29 +1,22 @@
-before = 0
-after = 0
-skip = 3
-zeropos = 0
+skip = 314
+zeroidx = 0
+nextnum = 1
 
-buffer = [0]
-
-for i in range(10) :
-    total = len(buffer)
+for i in range(50000000) :
+    total = i + 1
     split = skip + 1
     if split > total : split %= total
 
-    zeroshift = min(split, i + 1)
-    zeropos += zeroshift
-    zeropos %= total
-    #print zeropos
+    left = min(split, i + 1)
+    right = i - left + 1
 
-    assert zeroshift == len(buffer[:split])
-    print str(buffer) + ' -> '
-    print i + 1,
-    print buffer[split:],
-    print buffer[:split]
-    print
+    if zeroidx < split:
+        zeroidx += 1 + right
+    else:
+        zeroidx += 1 - left
 
-    buffer = [i + 1] + buffer[split:] + buffer[:split]
-    #print buffer
+    if zeroidx == i + 1:
+        nextnum = zeroidx
+        print nextnum
 
 print '###'
-print buffer[1]
