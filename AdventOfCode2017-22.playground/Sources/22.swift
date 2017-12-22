@@ -1,5 +1,9 @@
 import Foundation
 
+public class GlobalData {
+    public static var infectionCount = 0
+}
+
 public typealias Coordinates = (x: Int, y: Int)
 
 public func < (lhs: Coordinates, rhs: Coordinates) -> Bool {
@@ -17,10 +21,12 @@ extension String {
         let _map = self.split(separator: "\n")
             .map { Array($0) }
         
+        let offset = _map[0].count / 2
+        
         var map = [String : Coordinates]()
         for (y, row) in _map.enumerated() {
             for (x, state) in row.enumerated() {
-                let position: Coordinates = (x - 1, y - 1)
+                let position: Coordinates = (x - offset, y - offset)
                 if state == "#" {
                     map[String(describing: position)] = position
                 }
@@ -46,13 +52,13 @@ extension Dictionary where Key == String, Value == Coordinates {
         return self[String(describing: node)] != nil
     }
    
-    
     public mutating func disinfect(node: Coordinates) {
         self[String(describing: node)] = nil
     }
     
     public mutating func infect(node: Coordinates) {
         self[String(describing: node)] = node
+        GlobalData.infectionCount += 1
     }
     
     public mutating func toggle(node: Coordinates) {
